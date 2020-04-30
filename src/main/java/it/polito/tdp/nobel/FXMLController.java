@@ -1,6 +1,7 @@
 package it.polito.tdp.nobel;
 
 import java.net.URL;
+import java.sql.Time;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -36,8 +37,19 @@ public class FXMLController {
     void doCalcolaCombinazione(ActionEvent event) {
     		try {
     			int numeroCrediti = Integer.parseInt(txtInput.getText());
+    			long start =System.currentTimeMillis();
     			Set<Esame> voti = model.calcolaSottoinsiemeEsami(numeroCrediti);
+    			long end = System.currentTimeMillis();
     			
+    			this.txtResult.appendText(Double.toString(this.model.getBestMedia())+"\n");
+    			this.txtResult.appendText(Long.toString(end-start)+"\n");
+    			if(voti==null) {
+    				this.txtResult.appendText("not enough exams");
+    			} else {
+    			for(Esame e : voti) {
+    				txtResult.appendText(e.toString()+"\n");
+    			    }
+    			}
     		} catch (NumberFormatException e) {
     			txtResult.setText("Inserire un numero di crediti > 0");
     		}
